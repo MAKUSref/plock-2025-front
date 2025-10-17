@@ -1,8 +1,9 @@
 import { createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
 import { logout, setToken } from "./session/sessionSlice";
-import { KEYS } from "./keys";
 import type { RootState } from "./store";
 import type { SessionState } from "./session/types";
+
+const SESSION_KEY = "session";
 
 const EMPTY_JSON = JSON.stringify({});
 
@@ -12,13 +13,13 @@ sessionListenerMiddleware.startListening({
   matcher: isAnyOf(setToken, logout),
   effect: (_action, listenerApi) => {
     window.localStorage.setItem(
-      KEYS.session,
-      JSON.stringify((listenerApi.getState() as RootState).auth)
+      SESSION_KEY,
+      JSON.stringify((listenerApi.getState() as RootState).session)
     );
   }
 });
 
 export function preloadSession(): SessionState {
-  const session = window.localStorage.getItem(KEYS.session);
+  const session = window.localStorage.getItem(SESSION_KEY);
   return JSON.parse(session ?? EMPTY_JSON);
 }

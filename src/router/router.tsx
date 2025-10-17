@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import { PATHS } from "./paths";
-import { SubPage } from "../components/pages/SubPage";
-import { MainLayout } from "../components/layouts/MainLayout";
-import { HomePage } from "../components/pages/Home";
+import { SubPage } from "../pages/SubPage";
+import { MainLayout } from "../layouts/MainLayout";
+import { HomePage } from "../pages/Home";
 
 export function AppRouter() {
   return (
