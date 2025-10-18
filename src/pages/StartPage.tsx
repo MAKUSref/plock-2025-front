@@ -3,10 +3,14 @@ import IslandImage from "@/assets/icons/island.svg";
 import TripIcon from "@/assets/icons/trip.png";
 import DarkBlob from "@/assets/icons/blob-dark.svg";
 import Bike from "@/assets/icons/bike.png";
+import { useNavigate } from "react-router";
+import { PATHS } from "../router/paths";
 
 //TODO: CHECK PWA
 
 export const StartPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="relative h-dvh w-full flex flex-col items-center justify-end bg-purple-dark">
       <div>
@@ -32,7 +36,13 @@ export const StartPage = () => {
           Chcesz pojeździć dla relaksu, czy wolisz poczuć sportową adrenalinę na
           trasie?
         </p>
-        <Button>Rozpocznij planowanie!</Button>
+        <Button
+          onClick={() => {
+            navigate(PATHS.TRIP_QUESTION);
+          }}
+        >
+          Rozpocznij planowanie!
+        </Button>
         <button className="mt-2 text-sm text-gray-400 underline rounded-full py-3 px-7 w-full">
           Chcę tylko przejechać do punktu
         </button>
