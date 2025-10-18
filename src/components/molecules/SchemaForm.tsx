@@ -1,12 +1,9 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { type PropsWithChildren } from 'react';
 import {
-  type DefaultValues,
   type FieldErrors,
   type FieldValues,
   type UseFormReturn,
   FormProvider,
-  useForm,
 } from 'react-hook-form';
 import { z, type ZodSchema } from 'zod';
 
@@ -18,20 +15,7 @@ type FormProps<T extends FieldValues> = {
   withAutoComplete?: boolean;
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
-export function useSchemaForm<T extends FieldValues>(
-  schema: ZodSchema<T>,
-  options?: {
-    defaultValues?: DefaultValues<T>;
-  },
-) {
-  return useForm({
-    resolver: zodResolver(schema),
-    defaultValues: options?.defaultValues,
-  });
-}
-
-export function Form<T extends FieldValues>({
+export function SchemaForm<T extends FieldValues>({
   form,
   onSubmit,
   onError,

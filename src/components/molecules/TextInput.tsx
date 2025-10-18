@@ -1,7 +1,12 @@
 import { type InputProps, Input } from "antd";
 import { Controller, useFormContext } from "react-hook-form";
 
-export function TextInput({ name, ...props }: InputProps & { name: string }) {
+export function TextInput({
+  name,
+  type,
+  placeholder,
+  ...props
+}: InputProps & { name: string }) {
   const form = useFormContext();
 
   return (
@@ -9,7 +14,9 @@ export function TextInput({ name, ...props }: InputProps & { name: string }) {
       name={name}
       control={form.control}
       {...props}
-      render={({ field }) => <Input {...field} />}
+      render={({ field }) => (
+        <Input {...field} type={type} placeholder={placeholder} />
+      )}
     />
   );
 }
