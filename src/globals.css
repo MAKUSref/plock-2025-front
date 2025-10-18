@@ -15,3 +15,10 @@ body {
 .box {
   @apply p-4;
 }
+
+.mapboxgl-ctrl-top {
+  left: 0 !important;
+  transform: none !important;
+  width: 100%;
+  padding: 0 10px;
+}

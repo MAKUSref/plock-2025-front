@@ -27,7 +27,20 @@ export const navigationApi = createApi({
         url: `${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${config.MAPBOX_ACCESS_TOKEN}`,
       }),
     }),
+
+    getGeocoding: builder.query<void, string>({
+      query: (query) => ({
+        url: `${encodeURIComponent(query)}.json?access_token=${
+          config.MAPBOX_ACCESS_TOKEN
+        }&autocomplete=true&limit=5`,
+      }),
+    }),
   }),
 });
 
-export const { useGetRouteQuery, useLazyGetRouteQuery } = navigationApi;
+export const {
+  useGetRouteQuery,
+  useLazyGetRouteQuery,
+  useGetGeocodingQuery,
+  useLazyGetGeocodingQuery,
+} = navigationApi;
