@@ -22,6 +22,7 @@ export function Map() {
   useEffect(() => {
     addRouteLayer(GLOBAL_ROUTES_JSON, {
       "line-color": "#1c36c9",
+      "line-opacity": 0.5,
     });
   }, []);
 

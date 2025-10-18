@@ -5,6 +5,7 @@ import { HomePage } from "../pages/Home";
 import { MapPage } from "../pages/MapPage";
 import { StartPage } from "../pages/StartPage";
 import { TripQuestionPage } from "../pages/trip/TripQuestionPage";
+import { MapLayout } from "../components/layouts/MapLayout";
 
 export function AppRouter() {
   return (
@@ -12,9 +13,11 @@ export function AppRouter() {
       <Routes>
         <Route path={PATHS.HOME} element={<MainLayout />}>
           <Route index path={PATHS.HOME} element={<HomePage />} />
-          <Route path={PATHS.MAP} element={<MapPage />} />
           <Route path={PATHS.START} element={<StartPage />} />
           <Route path={PATHS.TRIP_QUESTION} element={<TripQuestionPage />} />
+          <Route path={PATHS.MAP} element={<MapLayout />}>
+            <Route index element={<MapPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

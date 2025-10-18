@@ -1,4 +1,5 @@
 import mapboxgl from "mapbox-gl";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import { useEffect, useRef } from "react";
 import { config } from "../config/config";
 import { DEFAULT_MAP_SETTINGS } from "../config/defaultData";
@@ -23,7 +24,15 @@ export function useMap() {
         },
         trackUserLocation: true,
         showUserHeading: true,
-      })
+      }),
+      "bottom-right"
+    );
+    mapRef.current.addControl(
+      new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        useBrowserFocus: true,
+      }),
+      "top"
     );
 
     return () => {
