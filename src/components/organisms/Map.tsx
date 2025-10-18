@@ -13,7 +13,7 @@ const END: Coordinate = [19.601562, 52.4823373];
 export function Map() {
   const { location } = useLocation();
   const [triggerRouteQuery] = useLazyGetRouteQuery();
-  
+
   const { mapContainerRef, mapRef } = useMap();
   const { addRouteLayer } = useRouteLayer(mapRef);
   const { addBikeStation: addStation } = useObjectLayer(mapRef);
