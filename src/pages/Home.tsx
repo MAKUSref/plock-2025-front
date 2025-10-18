@@ -1,4 +1,4 @@
-import { LoginForm } from "../components/molecules/forms/LoginForm";
+import { LoginForm } from "../components/organisms/forms/LoginForm";
 
 export function HomePage() {
   return (
