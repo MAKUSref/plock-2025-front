@@ -30,4 +30,4 @@ export const navigationApi = createApi({
   }),
 });
 
-export const { useGetRouteQuery } = navigationApi;
+export const { useGetRouteQuery, useLazyGetRouteQuery } = navigationApi;
