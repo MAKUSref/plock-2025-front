@@ -1,9 +1,14 @@
-import type { PropsWithChildren } from "react";
+import type { ButtonHTMLAttributes } from "react";
 
-export const Button = ({ children }: PropsWithChildren) => {
+export const Button = (
+  btnProps: Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className">
+) => {
   return (
-    <button className="bg-purple-dark text-white text-sm rounded-full py-3 px-7 w-full">
-      {children}
+    <button
+      {...btnProps}
+      className="bg-purple-dark text-white text-sm rounded-full py-3 px-7 w-full"
+    >
+      {btnProps.children}
     </button>
   );
 };
