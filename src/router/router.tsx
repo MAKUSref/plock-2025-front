@@ -4,7 +4,8 @@ import { MainLayout } from "../components/layouts/MainLayout";
 import { HomePage } from "../pages/Home";
 import { MapPage } from "../pages/MapPage";
 import { StartPage } from "../pages/StartPage";
-import { TripQuestionPage } from "../pages/trip/TripQuestionPage";
+import { TripListPage } from "../pages/trip/TripListPage";
+import { TripPage } from "../pages/trip/TripPage";
 
 export function AppRouter() {
   return (
@@ -14,7 +15,8 @@ export function AppRouter() {
           <Route index path={PATHS.HOME} element={<HomePage />} />
           <Route path={PATHS.MAP} element={<MapPage />} />
           <Route path={PATHS.START} element={<StartPage />} />
-          <Route path={PATHS.TRIP_QUESTION} element={<TripQuestionPage />} />
+          \ <Route path={PATHS.TRIP_LIST} element={<TripListPage />} />
+          <Route path={PATHS.TRIP_PAGE} element={<TripPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

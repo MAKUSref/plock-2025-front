@@ -29,19 +29,17 @@ export const StartPage = () => {
           src={TripIcon}
           className="absolute z-20 w-16 -top-5 left-1/2 transform -translate-x-1/2"
         />
-        <h1 className="text-2xl font-medium">
-          Zaplanuj wycieczkę rowerową po Płocku
-        </h1>
+        <h1 className="text-2xl font-medium">Podróżuj rowerem po Płocku!</h1>
         <p className="text-xs text-gray-600 py-6">
           Chcesz pojeździć dla relaksu, czy wolisz poczuć sportową adrenalinę na
           trasie?
         </p>
         <Button
           onClick={() => {
-            navigate(PATHS.TRIP_QUESTION);
+            navigate(PATHS.TRIP_LIST);
           }}
         >
-          Rozpocznij planowanie!
+          Znajdź idealną trasę dla mnie!
         </Button>
         <button className="mt-2 text-sm text-gray-400 underline rounded-full py-3 px-7 w-full">
           Chcę tylko przejechać do punktu

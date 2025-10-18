@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import sessionReducer from "./session/sessionSlice";
-import activeStepReducer from "./activeStepSlice";
 import { preloadSession, sessionListenerMiddleware } from "./middleware";
 import { baseApi } from "../api/baseApi/baseApi";
 import { navigationApi } from "../api/navigationApi/navigationApi";
+import tripReducer from "./slices/tripSlice";
 
 export const store = configureStore({
   reducer: {
     session: sessionReducer,
-    activeStep: activeStepReducer,
+    trip: tripReducer,
     [baseApi.reducerPath]: baseApi.reducer,
     [navigationApi.reducerPath]: navigationApi.reducer,
   },
