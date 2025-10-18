@@ -17,6 +17,12 @@ export function useMap() {
       ...DEFAULT_MAP_SETTINGS,
     });
 
+    mapRef.current.setLanguage("pl");
+    mapRef.current.setLayoutProperty("country-label", "text-field", [
+      "get",
+      "name_pl",
+    ]);
+
     mapRef.current.addControl(
       new mapboxgl.GeolocateControl({
         positionOptions: {
