@@ -265,10 +265,36 @@ export function useRouteLayer(mapRef: React.RefObject<mapboxgl.Map | null>) {
     return [bikeId];
   };
 
+  const generateMultipartBikeRoute = (coords: Coordinate[]) => {
+    const id = crypto.randomUUID();
+    coords.forEach((coord, i) => {
+      if (!coords[i + 1]) return;
+      generateBikeRoute([coord[1], coord[0]], [coords[i + 1][1], coords[i + 1][0]]);
+    });
+    return id;
+  };
+
+  const generateBasicMultipartBikeRoute = (coords: Coordinate[]) => {
+    const currentLocation = [
+      52.55063437715085, 19.68084675356976
+    ] as Coordinate;
+    const bikeId = generateMultipartBikeRoute([
+      currentLocation,
+      ...coords,
+      // currentLocation,
+    ]);
+    flyToBound(
+      currentLocation as [number, number],
+      coords[0] as [number, number]
+    );
+    return [bikeId];
+  };
+
   return {
     addRouteLayer,
     removeRouteLayer,
     generateBasicBikeRoute,
     generateWalkAndBikeRoute,
+    generateBasicMultipartBikeRoute,
   };
 }
