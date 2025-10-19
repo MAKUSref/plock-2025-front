@@ -1,14 +1,11 @@
-import { Button } from "antd";
-import ARROW_LEFT from "../assets/icons/arrow-left.svg";
 import { EnvironmentOutlined } from "@ant-design/icons";
 import { useAppSelector } from "../redux/hooks";
-import { useNavigate } from "react-router";
 import dayjs from "dayjs";
 import { useMemo } from "react";
+import { BackBtn } from "../components/atoms/BackBtn";
 
 export function MapPage() {
   const { searchResult, activeRoutes } = useAppSelector((state) => state.map);
-  const navigate = useNavigate();
 
   const duration = useMemo(() => {
     return Math.floor(
@@ -40,12 +37,7 @@ export function MapPage() {
   return (
     <>
       <div className="absolute z-20 top-5 left-5">
-        <Button
-          shape="circle"
-          size="large"
-          icon={<img src={ARROW_LEFT} alt="Back" className="p-2" />}
-          onClick={() => navigate(-1)}
-        />
+        <BackBtn />
       </div>
       <div className="absolute z-20 bottom-0 w-full box rounded-t-4xl bg-white">
         <div className="flex items-center gap-4">
