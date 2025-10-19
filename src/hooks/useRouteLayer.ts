@@ -274,11 +274,7 @@ export function useRouteLayer(mapRef: React.RefObject<mapboxgl.Map | null>) {
         [coords[i][1], coords[i][0]],
         [coords[i + 1][1], coords[i + 1][0]]
       );
-      console.log(id);
-      
       ids.push(id);
-      console.log({ids});
-      
       dispatch(setActiveRoutes(ids));
     }
     return ids;

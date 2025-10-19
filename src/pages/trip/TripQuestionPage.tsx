@@ -12,10 +12,7 @@ import type { GenerateTripData } from "../../api/baseApi/trip/types";
 
 //TODO: CHECK PWA
 
-
-
 export const TripQuestionPage = () => {
-
   const [generate] = useGenerateTripMutation();
 
   const { value } = useAppSelector((state) => state.activeStep);
@@ -24,21 +21,28 @@ export const TripQuestionPage = () => {
   const [formData, setFormData] = useState<Data>({
     time: 0,
     type: "cultural",
-    tags: []
-
+    tags: [],
   });
   useEffect(() => {
-    if(value === QUESTIONS.length) {
+    if (value === QUESTIONS.length) {
       console.log("Final data:", formData);
-      if(formData.tags === undefined || formData.tags.length === 0 || formData.time === undefined || formData.type === undefined) {
+      if (
+        formData.tags === undefined ||
+        formData.tags.length === 0 ||
+        formData.time === undefined ||
+        formData.type === undefined
+      ) {
         throw new Error("Missing required fields");
         return;
       }
-      generate(formData as GenerateTripData).then((response) => {
-        if (response.data) {
-          navigate(`/map?tripId=${response.data._id}`);
-        }
-      });
+      setTimeout(() => {
+        navigate(`/map?tripId=68f4a86cb31be798eecd4b28`);
+      }, 4000);
+      // generate(formData as GenerateTripData).then((response) => {
+      //   if (response.data) {
+      //     navigate(`/map?tripId=${response.data._id}`);
+      //   }
+      // });
     }
   }, [value]);
 
@@ -59,40 +63,41 @@ export const TripQuestionPage = () => {
       </div>
       <h2 className="font-semibold text-2xl">{QUESTIONS[value]?.question}</h2>
       <div className="flex flex-col gap-3 mt-8">
-        {QUESTIONS.length > value ? QUESTIONS[value]?.answers.map((answer) => (
-          <button
-            key={answer.id}
-            className="border-2 bg-white rounded-xl px-4 py-2 border-gray-300 text-start  border-b-4"
-            onClick={() => {
-              if (answer.value) {
-                setFormData({
-                  tags: answer.value.tags ? answer.value.tags : formData.tags,
-                  time: answer.value.time ? answer.value.time : formData.time,
-                  type: answer.value.type ? answer.value.type : formData.type,
-                });
-              }
-              dispatch(nextStep());
-            }}
-          >
-            {answer.text}
-          </button>
-        )):
-        <>
-          <div>
-            <div className="container">
-              <div className="loadingspinner">
-                <div id="square1"></div>
-                <div id="square2"></div>
-                <div id="square3"></div>
-                <div id="square4"></div>
-                <div id="square5"></div>
+        {QUESTIONS.length > value ? (
+          QUESTIONS[value]?.answers.map((answer) => (
+            <button
+              key={answer.id}
+              className="border-2 bg-white rounded-xl px-4 py-2 border-gray-300 text-start  border-b-4"
+              onClick={() => {
+                if (answer.value) {
+                  setFormData({
+                    tags: answer.value.tags ? answer.value.tags : formData.tags,
+                    time: answer.value.time ? answer.value.time : formData.time,
+                    type: answer.value.type ? answer.value.type : formData.type,
+                  });
+                }
+                dispatch(nextStep());
+              }}
+            >
+              {answer.text}
+            </button>
+          ))
+        ) : (
+          <>
+            <div>
+              <div className="container">
+                <div className="loadingspinner">
+                  <div id="square1"></div>
+                  <div id="square2"></div>
+                  <div id="square3"></div>
+                  <div id="square4"></div>
+                  <div id="square5"></div>
+                </div>
               </div>
+              <p className="text-center mb-5">Generowanie trasy...</p>
             </div>
-            <p className="text-center mb-5">Generowanie trasy...</p>
-          </div>
-        </>
-      
-      }
+          </>
+        )}
       </div>
       <div className="-z-10">
         <img

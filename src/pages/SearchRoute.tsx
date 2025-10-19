@@ -34,7 +34,6 @@ export const SearchRoutePage = () => {
       proximity: { latitude: location.lat ?? 0, longitude: location.lon ?? 0 },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }).then((result: any) => {
-      console.log(result.data.features);
       if (!result?.data?.features) return;
       if (!location.lon || !location.lat) return;
 
