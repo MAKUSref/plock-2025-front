@@ -5,9 +5,13 @@ import ArrowUp from "@/assets/icons/arrow-up.svg";
 import AI from "@/assets/icons/ai.svg";
 import { useNavigate } from "react-router";
 import { PATHS } from "../router/paths";
+import { LockOutlined } from "@ant-design/icons";
+import VILLAGE from "@/assets/illustrations/village.png";
+import { useAppSelector } from "../redux/hooks";
 
 export function HomePage() {
   const navigate = useNavigate();
+  const isActive = useAppSelector((state) => state.achievement.isAvailable);
 
   return (
     <div className="relative h-dvh z-30 bg-linear-to-b from-white to-[#D3CFF1] overflow-hidden">
@@ -37,9 +41,9 @@ export function HomePage() {
         <div className="box">
           <p className="text-xs mb-4">Osiągnięcia</p>
           <div className="flex gap-2">
-            <div className="rounded-full size-16 bg-white"></div>
-            <div className="rounded-full size-16 bg-white"></div>
-            <div className="rounded-full size-16 bg-white"></div>
+            <Achievement locked={true} />
+            <Achievement locked={isActive} />
+            <Achievement locked={true} />
           </div>
         </div>
         <button
@@ -68,3 +72,15 @@ export function HomePage() {
     </div>
   );
 }
+
+const Achievement = ({ locked }: { locked: boolean }) => {
+  return (
+    <div className="rounded-full size-16 bg-white flex items-center justify-center">
+      {locked ? (
+        <LockOutlined style={{ color: "#ccc" }} />
+      ) : (
+        <img src={VILLAGE} className="size-9" />
+      )}
+    </div>
+  );
+};
