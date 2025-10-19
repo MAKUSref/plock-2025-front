@@ -4,6 +4,7 @@ import locationReducer from "./location/locationSlice";
 import mapReducer from "./map/mapSlice";
 import { preloadSession, sessionListenerMiddleware } from "./middleware";
 import activeStepReducer from "./slices/activeStepSlice";
+import achievementReducer from "./slices/achivementSlice";
 import { baseApi } from "../api/baseApi/baseApi";
 import { navigationApi } from "../api/navigationApi/navigationApi";
 import tripReducer from "./slices/tripSlice";
@@ -15,6 +16,7 @@ export const store = configureStore({
     trip: tripReducer,
     location: locationReducer,
     activeStep: activeStepReducer,
+    achievement: achievementReducer,
     map: mapReducer,
     [baseApi.reducerPath]: baseApi.reducer,
     [navigationApi.reducerPath]: navigationApi.reducer,
