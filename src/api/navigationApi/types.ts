@@ -1,6 +1,6 @@
 export type Coordinate = [number | string, number | string];
 
-export type GetMultiPartRoute = Coordinate[];
+export type GetMultiPartRoute = { coords: Coordinate[] };
 
 export type GetRouteRequest = {
   start: Coordinate;
@@ -12,7 +12,7 @@ export type GetRouteResponse = {
   code: string;
   uuid: string;
   waypoints: Waypoint[];
-}
+};
 
 export type Route = {
   distance: number;
@@ -43,7 +43,7 @@ export type Step = {
   geometry: GeoJSON.Geometry;
   maneuver: Maneuver;
   // intersection is omitted
-}
+};
 
 export type Maneuver = {
   instruction: string;

@@ -11,23 +11,17 @@ export const authApi = baseApi.injectEndpoints({
         body: [location[0], location[1]],
       }),
     }),
-    getPlacesByTag: builder.mutation<Place[], { tag: string }>({
-      query: ({ tag }) => ({
-        url: `/places/tag/${tag}`,
-        method: "GET",
-      }),
+    getPlacesByTag: builder.query<Place[], { tag: string }>({
+      query: ({ tag }) => `/places/tag/${tag}`,
     }),
-    getStations: builder.mutation<Place[], void>({
-      query: () => ({
-        url: `/places/tag/stations`,
-        method: "GET",
-      }),
+    getStations: builder.query<Place[], void>({
+      query: () => `/places/tag/stations`,
     }),
   }),
 });
 
 export const {
   useGetNearestBikeStationMutation,
-  useGetPlacesByTagMutation,
-  useGetStationsMutation,
+  useGetPlacesByTagQuery,
+  useGetStationsQuery,
 } = authApi;

@@ -7,6 +7,7 @@ import BIKE_STATIONS_JSON from "../../assets/bike_stations.json";
 import { useObjectLayer } from "../../hooks/useObjectLayer";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setActiveRoutes } from "../../redux/map/mapSlice";
+import { useGetPlacesByTagQuery } from "../../api/baseApi/place/placeApi";
 
 export function Map() {
   const { searchResult, activeRoutes, bikeType } = useAppSelector((state) => state.map);
@@ -17,8 +18,10 @@ export function Map() {
     removeRouteLayer,
     generateWalkAndBikeRoute,
   } = useRouteLayer(mapRef);
-  const { addBikeStation: addStation } = useObjectLayer(mapRef);
   const dispatch = useAppDispatch();
+  const { addBikeStation: addStation, addPlaceToRest } = useObjectLayer(mapRef);
+  const { data: restingPlaces } = useGetPlacesByTagQuery({ tag: "resting_place" });
+  const { data: churchPlaces } = useGetPlacesByTagQuery({ tag: "church" });
 
   // Load global plock routes
   useEffect(() => {
@@ -32,9 +35,20 @@ export function Map() {
   // Add bike stations
   useEffect(() => {
     BIKE_STATIONS_JSON.features.forEach(({ geometry }) => {
-      addStation(geometry.coordinates as Coordinate);
+      addStation(geometry.coordinates as Coordinate, true);
     });
+
+    churchPlaces?.forEach((place) => (
+      addPlaceToRest(place.coordinates as Coordinate)
+    ));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    restingPlaces?.forEach((place) => (
+      addPlaceToRest(place.coordinates as Coordinate)
+    ));
+  }, [restingPlaces]);
 
   useEffect(() => {
     activeRoutes?.forEach((route) => {
