@@ -1,7 +1,7 @@
 import { useLazyGetRouteQuery } from "../api/navigationApi/navigationApi";
 import type { Coordinate } from "../api/navigationApi/types";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { addDetailsToRoute } from "../redux/map/mapSlice";
+import { addDetailsToRoute, setActiveRoutes } from "../redux/map/mapSlice";
 import { useMapUtils } from "./useMapUtils";
 
 const DEFAULT_PAINT = {
@@ -266,28 +266,31 @@ export function useRouteLayer(mapRef: React.RefObject<mapboxgl.Map | null>) {
   };
 
   const generateMultipartBikeRoute = (coords: Coordinate[]) => {
-    const id = crypto.randomUUID();
-    coords.forEach((coord, i) => {
+    const ids: string[] = [];
+
+    for (let i = 0; i < coords.length; i++) {
       if (!coords[i + 1]) return;
-      generateBikeRoute([coord[1], coord[0]], [coords[i + 1][1], coords[i + 1][0]]);
-    });
-    return id;
+      const id = generateBikeRoute(
+        [coords[i][1], coords[i][0]],
+        [coords[i + 1][1], coords[i + 1][0]]
+      );
+      console.log(id);
+      
+      ids.push(id);
+      console.log({ids});
+      
+      dispatch(setActiveRoutes(ids));
+    }
+    return ids;
   };
 
   const generateBasicMultipartBikeRoute = (coords: Coordinate[]) => {
-    const currentLocation = [
-      52.55063437715085, 19.68084675356976
-    ] as Coordinate;
-    const bikeId = generateMultipartBikeRoute([
-      currentLocation,
-      ...coords,
-      // currentLocation,
-    ]);
+    const currentLocation = [52.550592689974025, 19.68084852280856] as Coordinate;
+    generateMultipartBikeRoute([currentLocation, ...coords]);
     flyToBound(
       currentLocation as [number, number],
-      coords[0] as [number, number]
+      [coords[0][1], coords[0][0]] as [number, number]
     );
-    return [bikeId];
   };
 
   return {

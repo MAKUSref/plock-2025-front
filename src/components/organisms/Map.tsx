@@ -25,9 +25,21 @@ export function Map() {
     generateBasicMultipartBikeRoute,
   } = useRouteLayer(mapRef);
   const dispatch = useAppDispatch();
-  const { addBikeStation: addStation, addPlaceToRest } = useObjectLayer(mapRef);
+  const { addBikeStation: addStation, addPlaceToRest, addPlaceToVisit } = useObjectLayer(mapRef);
   const { data: restingPlaces } = useGetPlacesByTagQuery({
     tag: "resting_place",
+  });
+  const { data: churchPlaces } = useGetPlacesByTagQuery({
+    tag: "church",
+  });
+  const { data: historicalPlaces } = useGetPlacesByTagQuery({
+    tag: "historical_site",
+  });
+  const { data: parkPlaces } = useGetPlacesByTagQuery({
+    tag: "park",
+  });
+  const { data: museumPlaces } = useGetPlacesByTagQuery({
+    tag: "museum",
   });
   const { data: tripData } = useGetTripByIdQuery({
     tripId: searchParams.get("tripId") || "",
@@ -58,6 +70,34 @@ export function Map() {
   }, [restingPlaces]);
 
   useEffect(() => {
+    churchPlaces?.forEach((place) => {
+      const coord = [place.coordinates[1], place.coordinates[0]] as Coordinate;
+      addPlaceToVisit(coord);
+    });
+  }, [churchPlaces]);
+
+  useEffect(() => {
+    historicalPlaces?.forEach((place) => {
+      const coord = [place.coordinates[1], place.coordinates[0]] as Coordinate;
+      addPlaceToVisit(coord);
+    });
+  }, [historicalPlaces]);
+
+  useEffect(() => {
+    parkPlaces?.forEach((place) => {
+      const coord = [place.coordinates[1], place.coordinates[0]] as Coordinate;
+      addPlaceToVisit(coord);
+    });
+  }, [parkPlaces]);
+
+  useEffect(() => {
+    museumPlaces?.forEach((place) => {
+      const coord = [place.coordinates[1], place.coordinates[0]] as Coordinate;
+      addPlaceToVisit(coord);
+    });
+  }, [museumPlaces]);
+
+  useEffect(() => {
     activeRoutes?.forEach((route) => {
       removeRouteLayer(route.id);
     });
@@ -74,7 +114,6 @@ export function Map() {
 
   useEffect(() => {
     if (!tripData) return;
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const coords = (tripData as any).trip.waypoints.map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
