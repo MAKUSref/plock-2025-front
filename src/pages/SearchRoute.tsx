@@ -1,8 +1,6 @@
 import { useState, type MouseEventHandler } from "react";
 import PRIVATE_BIKE_IMAGE from "@/assets/illustrations/private-bike.png";
 import CITY_BIKE_IMAGE from "@/assets/illustrations/um-bike.png";
-import ARROW_LEFT from "@/assets/icons/arrow-left.svg";
-import { Button, Input } from "antd";
 import { Btn } from "../components/atoms/Button";
 import { useLocation } from "../hooks/useLocation";
 import { AimOutlined, EnvironmentOutlined } from "@ant-design/icons";
@@ -15,6 +13,8 @@ import { setCurrentBikeType, setSearchResult } from "../redux/map/mapSlice";
 import { setCurrentLocation } from "../redux/location/locationSlice";
 import { useNavigate } from "react-router";
 import { PATHS } from "../router/paths";
+import { BackBtn } from "../components/atoms/BackBtn";
+import { Input } from "antd";
 
 export const SearchRoutePage = () => {
   const [destination, setDestination] = useState("");
@@ -55,13 +55,7 @@ export const SearchRoutePage = () => {
     <form ref={formRef} onSubmit={handleSubmit}>
       <div className="box h-dvh flex flex-col justify-between">
         <div className="flex flex-col gap-4">
-          <div className="">
-            <Button
-              type="text"
-              size="small"
-              icon={<img src={ARROW_LEFT} alt="Back" />}
-            />
-          </div>
+          <BackBtn />
           <Input
             value="Twoja lokalizacja"
             size="large"
