@@ -19,6 +19,7 @@ export type Route = {
 }
 
 export type MapState = {
+  bikeType: "city" | "private";
   searchResult?: Location;
   activeRoutes?: Route[];
 };

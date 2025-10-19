@@ -1,12 +1,18 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { MapState, Location, RouteData } from "./types";
 
-const initialState: MapState = {};
+const initialState: MapState = {
+  bikeType: "city",
+};
 
 export const mapSlice = createSlice({
   name: "map",
   initialState,
   reducers: {
+    setCurrentBikeType: (state, action: PayloadAction<"city" | "private">) => {
+      state.bikeType = action.payload;
+    },
+
     setSearchResult: (state, action: PayloadAction<Location>) => {
       state.searchResult = action.payload;
     },
@@ -32,6 +38,10 @@ export const mapSlice = createSlice({
   },
 });
 
-export const { setSearchResult, setActiveRoutes, addDetailsToRoute } =
-  mapSlice.actions;
+export const {
+  setSearchResult,
+  setActiveRoutes,
+  addDetailsToRoute,
+  setCurrentBikeType,
+} = mapSlice.actions;
 export default mapSlice.reducer;
