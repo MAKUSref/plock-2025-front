@@ -119,7 +119,9 @@ export function Map() {
 
   useEffect(() => {
     if (!tripData) return;
-    console.log("Trip data changed:", tripData);
+    activeRoutes?.forEach((route) => {
+      removeRouteLayer(route.id);
+    });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const coords = (tripData as any)?.trip.waypoints.map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
