@@ -39,8 +39,6 @@ export function MapPage() {
     return (meters / 1000).toFixed(1);
   }, [activeRoutes]);
 
-  console.log(distance);
-
   const directions = useMemo(() => {
     return activeRoutes
       ? activeRoutes[0]?.details?.steps[0].maneuver.instruction ??
