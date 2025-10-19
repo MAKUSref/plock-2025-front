@@ -36,7 +36,7 @@ export const TripQuestionPage = () => {
       }
       generate(formData as GenerateTripData).then((response) => {
         if (response.data) {
-          navigate(`/map/${response.data._id}`);
+          navigate(`/map?tripId=${response.data._id}`);
         }
       });
     }
