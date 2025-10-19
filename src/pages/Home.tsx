@@ -16,6 +16,7 @@ import {
 } from "../redux/slices/achivementSlice";
 
 export function HomePage() {
+  const { distance, calories } = useAppSelector((state) => state.session);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
@@ -58,8 +59,8 @@ export function HomePage() {
             <div className="mt-10">
               <p className="text-xs mb-1">Dzisiaj</p>
               <div className="text-4xl font-bold">
-                <p>20 km</p>
-                <p className="text-purple-dark">200 kcal</p>
+                <p>{Number(distance ?? 0).toFixed(2)} km</p>
+                <p className="text-purple-dark">{Number(calories ?? 0).toFixed(2)} kcal</p>
               </div>
             </div>
           </div>

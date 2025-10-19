@@ -41,7 +41,7 @@ export const RewardPage = () => {
         </p>
         <Btn
           onClick={() => {
-            navigate(PATHS.HOME);
+            navigate(PATHS.START);
           }}
         >
           Odbierz
