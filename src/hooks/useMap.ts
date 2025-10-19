@@ -22,35 +22,17 @@ export function useMap() {
       ...DEFAULT_MAP_SETTINGS,
     });
 
-    mapRef.current.setLanguage("pl");
-    mapRef.current.setLayoutProperty("country-label", "text-field", [
-      "get",
-      "name_pl",
-    ]);
-
-    mapRef.current.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        trackUserLocation: true,
-        showUserHeading: true,
-      }),
-      "bottom-right"
-    );
-    mapRef.current.addControl(
-      new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        useBrowserFocus: true,
-      }),
-      "top"
-    );
     const geolocate = new mapboxgl.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true,
       },
       trackUserLocation: true,
       showUserHeading: true,
+    });
+
+    const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      useBrowserFocus: true,
     });
 
     geolocate.on("geolocate", (e) => {
@@ -60,17 +42,22 @@ export function useMap() {
       dispatch(setCurrentLocation([longitude, latitude]));
     });
 
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      useBrowserFocus: true,
+    geocoder.on("result", (e) => {
+      dispatch(
+        setSearchResult({
+          location: e.result.center as [number, number],
+          name: e.result.place_name,
+        })
+      );
     });
 
-    geocoder.on("result", (e) => {
-      dispatch(setSearchResult({
-        location: e.result.center as [number, number],
-        name: e.result.place_name,
-      }))
-    })
+    mapRef.current.on("load", () => {
+      mapRef.current?.setLanguage("pl");
+      mapRef.current?.setLayoutProperty("country-label", "text-field", [
+        "get",
+        "name_pl",
+      ]);
+    });
 
     mapRef.current.addControl(geolocate, "bottom-right");
     mapRef.current.addControl(geocoder, "top");
