@@ -1,6 +1,7 @@
 import { useLazyGetRouteQuery } from "../api/navigationApi/navigationApi";
 import type { Coordinate } from "../api/navigationApi/types";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { addDetailsToRoute } from "../redux/map/mapSlice";
 import { useMapUtils } from "./useMapUtils";
 
 const DEFAULT_PAINT = {
@@ -13,6 +14,7 @@ export function useRouteLayer(mapRef: React.RefObject<mapboxgl.Map | null>) {
   const { currentLocation } = useAppSelector((state) => state.location);
   const [triggerRouteQuery] = useLazyGetRouteQuery();
   const { flyToBound, getNearestBikeStation } = useMapUtils(mapRef);
+  const dispatch = useAppDispatch();
 
   const addRouteLayer = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -55,6 +57,20 @@ export function useRouteLayer(mapRef: React.RefObject<mapboxgl.Map | null>) {
   const generateWalkRoute = (start: Coordinate, end: Coordinate) => {
     const id = crypto.randomUUID();
     triggerRouteQuery({ start, end, type: "walking" }).then(({ data }) => {
+      if (data) {
+        dispatch(
+          addDetailsToRoute({
+            id,
+            data: {
+              distance: data.routes[0].distance,
+              duration: data.routes[0].duration,
+              steps: data.routes[0].legs[0].steps,
+              type: "pedestrian",
+            },
+          })
+        );
+      }
+
       mapRef.current?.loadImage(
         "https://docs.mapbox.com/mapbox-gl-js/assets/pattern-dot.png",
         (error, image) => {
@@ -185,6 +201,20 @@ export function useRouteLayer(mapRef: React.RefObject<mapboxgl.Map | null>) {
       start,
       end,
     }).then(({ data }) => {
+      if (data) {
+        dispatch(
+          addDetailsToRoute({
+            id,
+            data: {
+              distance: data.routes[0].distance,
+              duration: data.routes[0].duration,
+              steps: data.routes[0].legs[0].steps,
+              type: "cycling",
+            },
+          })
+        );
+      }
+
       mapRef.current?.addLayer({
         id,
         type: "line",

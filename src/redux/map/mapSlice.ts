@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { MapState, Location, Route } from "./types";
+import type { MapState, Location, RouteData } from "./types";
 
 const initialState: MapState = {};
 
@@ -12,10 +12,26 @@ export const mapSlice = createSlice({
     },
 
     setActiveRoutes: (state, action: PayloadAction<string[] | undefined>) => {
-      // state.activeRoutes = action.payload;
+      state.activeRoutes = action.payload?.map((id) => ({
+        id,
+        state: "idle",
+      }));
+    },
+
+    addDetailsToRoute: (
+      state,
+      action: PayloadAction<{ id: string; data: RouteData }>
+    ) => {
+      const route = state.activeRoutes?.find(
+        (route) => route.id === action.payload.id
+      );
+      if (route) {
+        route.details = action.payload.data;
+      }
     },
   },
 });
 
-export const { setSearchResult, setActiveRoutes } = mapSlice.actions;
+export const { setSearchResult, setActiveRoutes, addDetailsToRoute } =
+  mapSlice.actions;
 export default mapSlice.reducer;
