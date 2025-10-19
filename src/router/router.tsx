@@ -9,6 +9,7 @@ import { TripListPage } from "../pages/trip/TripListPage";
 import { TripPage } from "../pages/trip/TripPage";
 import { SearchRoutePage } from "../pages/SearchRoute";
 import { TripQuestionPage } from "../pages/trip/TripQuestionPage";
+import { RewardPage } from "../pages/RewardPage";
 
 export function AppRouter() {
   return (
@@ -24,6 +25,7 @@ export function AppRouter() {
           <Route path={PATHS.TRIP_PAGE} element={<TripPage />} />
           <Route path={PATHS.SEARCH_ROUTE} element={<SearchRoutePage />} />
           <Route path={PATHS.TRIP_QUESTION} element={<TripQuestionPage />} />
+          <Route path={PATHS.REWARD_PAGE} element={<RewardPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

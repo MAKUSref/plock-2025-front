@@ -6,4 +6,5 @@ export const PATHS = {
   TRIP_LIST: "/trip-list",
   TRIP_PAGE: "/trip/:tripId",
   SEARCH_ROUTE: "/search-route",
+  REWARD_PAGE: "/reward",
 };
