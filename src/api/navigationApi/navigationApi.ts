@@ -40,7 +40,7 @@ export const navigationApi = createApi({
       GetRouteRequest & { type?: "cycling" | "walking" }
     >({
       query: ({ start, end, type = "cycling" }) => ({
-        url: `${type}/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${config.MAPBOX_ACCESS_TOKEN}`,
+        url: `${type}/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${config.MAPBOX_ACCESS_TOKEN}&language=pl`,
       }),
     }),
 
@@ -48,7 +48,7 @@ export const navigationApi = createApi({
       query: (query) => ({
         url: `cycling/${encodeURIComponent(query)}.json?access_token=${
           config.MAPBOX_ACCESS_TOKEN
-        }&autocomplete=true&limit=5`,
+        }&autocomplete=true&limit=5&language=pl`,
       }),
     }),
   }),
