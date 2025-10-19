@@ -25,7 +25,12 @@ export function Map() {
     generateBasicMultipartBikeRoute,
   } = useRouteLayer(mapRef);
   const dispatch = useAppDispatch();
-  const { addBikeStation: addStation, addPlaceToRest, addPlaceToVisit } = useObjectLayer(mapRef);
+  const {
+    addBikeStation: addStation,
+    addPlaceToRest,
+    addPlaceToVisit,
+    addPark,
+  } = useObjectLayer(mapRef);
   const { data: restingPlaces } = useGetPlacesByTagQuery({
     tag: "resting_place",
   });
@@ -86,7 +91,7 @@ export function Map() {
   useEffect(() => {
     parkPlaces?.forEach((place) => {
       const coord = [place.coordinates[1], place.coordinates[0]] as Coordinate;
-      addPlaceToVisit(coord);
+      addPark(coord);
     });
   }, [parkPlaces]);
 

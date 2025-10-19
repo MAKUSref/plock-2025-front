@@ -3,6 +3,7 @@ import type React from "react";
 import STATION_ICON from "../assets/icons/station.png";
 import PLACE_TO_VISIT_ICON from "../assets/icons/place_to_visit.png";
 import PLACE_TO_REST_ICON from "../assets/icons/place_to_rest.png";
+import PARK_ICON from "../assets/icons/park.png";
 
 export function useObjectLayer(mapRef: React.RefObject<mapboxgl.Map | null>) {
   const addLazyPlace = (coords: Coordinate, image: string) => {
@@ -106,5 +107,12 @@ export function useObjectLayer(mapRef: React.RefObject<mapboxgl.Map | null>) {
     return addPlace(coords, PLACE_TO_REST_ICON);
   };
 
-  return { addBikeStation, addPlaceToVisit, addPlaceToRest };
+  const addPark = (coords: Coordinate, lazy?: boolean) => {
+    if (lazy) {
+      return addLazyPlace(coords, PARK_ICON);
+    }
+    return addPlace(coords, PARK_ICON);
+  };
+
+  return { addBikeStation, addPlaceToVisit, addPlaceToRest, addPark };
 }
