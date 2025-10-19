@@ -39,6 +39,9 @@ export function MapPage() {
     return (meters / 1000).toFixed(1);
   }, [activeRoutes]);
 
+  console.log(distance);
+  
+
   const directions = useMemo(() => {
     return activeRoutes
       ? activeRoutes[0]?.details?.steps[0].maneuver.instruction ??
@@ -56,7 +59,10 @@ export function MapPage() {
           <Button shape="circle" size="large" icon={<WarningOutlined />} />
         </div>
         <div className="px-2 pb-2">
-          <RideProgress />
+          <RideProgress
+            distance={Number(distance)}
+            calories={Number(distance) * 45}
+          />
         </div>
         <div className=" box rounded-t-4xl bg-white">
           {searchResult && (
