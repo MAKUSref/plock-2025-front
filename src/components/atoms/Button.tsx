@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from "react";
 
-export const Button = (
+export const Btn = (
   btnProps: Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className">
 ) => {
   return (
