@@ -114,8 +114,9 @@ export function Map() {
 
   useEffect(() => {
     if (!tripData) return;
+    console.log("Trip data changed:", tripData);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const coords = (tripData as any).trip.waypoints.map(
+    const coords = (tripData as any)?.trip.waypoints.map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (wp: any) => wp.coordinates
     );

@@ -10,10 +10,15 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
     getTripById: builder.query<void, { tripId: string }>({
-      query: ({ tripId }) => ({
-        url: `/trips/${tripId}`,
-        method: "GET",
-      }),
+      query: ({ tripId }) => {
+        if (typeof tripId !== "string" || tripId.trim() === "") {
+          throw new Error("tripId must be a non-empty string");
+        }
+        return {
+          url: `/trips/${tripId}`,
+          method: "GET",
+        };
+      },
     }),
     createTrip: builder.mutation<void, Trip>({
       query: () => ({
