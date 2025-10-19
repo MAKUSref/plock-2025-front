@@ -3,12 +3,15 @@ import { Progress, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
 import { PATHS } from "../../router/paths";
+import { useAppDispatch } from "../../redux/hooks";
+import { setAchievementNew } from "../../redux/slices/achivementSlice";
 
 export const RideProgress = () => {
   const naviagte = useNavigate();
   const [percent, setPercent] = useState(0);
   const [showButton, setShowButton] = useState(false);
   const [started, setStarted] = useState(false);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // ⏳ 3-sekundowa pauza przed rozpoczęciem
@@ -56,6 +59,7 @@ export const RideProgress = () => {
       className="w-full"
       icon={<CloseOutlined />}
       onClick={() => {
+        dispatch(setAchievementNew(true));
         naviagte(PATHS.HOME);
       }}
     >
