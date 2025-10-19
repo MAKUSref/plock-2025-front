@@ -29,7 +29,11 @@ export const SearchRoutePage = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    triggerSearchLocation({ query: destination }).then((result: any) => {
+    triggerSearchLocation({
+      query: destination,
+      proximity: { latitude: location.lat ?? 0, longitude: location.lon ?? 0 },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }).then((result: any) => {
       console.log(result.data.features);
       if (!result?.data?.features) return;
       if (!location.lon || !location.lat) return;

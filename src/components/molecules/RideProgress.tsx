@@ -60,7 +60,7 @@ export const RideProgress = () => {
       icon={<CloseOutlined />}
       onClick={() => {
         dispatch(setAchievementNew(true));
-        naviagte(PATHS.HOME);
+        naviagte(PATHS.START);
       }}
     >
       Zakończ
