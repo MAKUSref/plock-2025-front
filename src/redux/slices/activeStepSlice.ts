@@ -18,8 +18,11 @@ export const activeStepSlice = createSlice({
     prevStep: (state) => {
       if (state.value > 0) state.value -= 1;
     },
+    clearSteps: (state) => {
+      state.value = 0;
+    }
   },
 });
 
-export const { nextStep, prevStep } = activeStepSlice.actions;
+export const { nextStep, prevStep, clearSteps } = activeStepSlice.actions;
 export default activeStepSlice.reducer;
