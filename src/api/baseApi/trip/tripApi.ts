@@ -21,7 +21,7 @@ export const authApi = baseApi.injectEndpoints({
         method: "POST",
       }),
     }),
-    generateTrip: builder.mutation<void, GenerateTripData>({
+    generateTrip: builder.mutation<Trip, GenerateTripData>({
       query: (data) => ({
         url: "/trips/generate",
         method: "POST",
@@ -30,7 +30,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
     updateTrip: builder.mutation<void, Trip>({
       query: (trip) => ({
-        url: `/trips/${trip.id}`,
+        url: `/trips/${trip._id}`,
         method: "PUT",
         body: trip,
       }),

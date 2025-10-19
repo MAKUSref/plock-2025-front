@@ -4,7 +4,7 @@ import type { Place, PlaceTag } from "../place/types";
 export type TripType = "sport" | "cultural" | "nature";
 
 export type Trip = {
-  id: string;
+  _id: string;
   type: TripType;
   name: string;
   description: string;
