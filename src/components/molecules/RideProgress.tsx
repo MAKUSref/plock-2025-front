@@ -5,9 +5,15 @@ import { useNavigate } from "react-router";
 import { PATHS } from "../../router/paths";
 import { useAppDispatch } from "../../redux/hooks";
 import { setAchievementNew } from "../../redux/slices/achivementSlice";
+import { addCalories, addDistance } from "../../redux/session/sessionSlice";
 
-export const RideProgress = () => {
-  const naviagte = useNavigate();
+type RideProgressProps = {
+  distance: number;
+  calories: number;
+};
+
+export const RideProgress = ({ distance, calories }: RideProgressProps) => {
+  const navigate = useNavigate();
   const [percent, setPercent] = useState(0);
   const [showButton, setShowButton] = useState(false);
   const [started, setStarted] = useState(false);
@@ -60,7 +66,9 @@ export const RideProgress = () => {
       icon={<CloseOutlined />}
       onClick={() => {
         dispatch(setAchievementNew(true));
-        naviagte(PATHS.START);
+        navigate(PATHS.START);
+        dispatch(addDistance(distance ?? 0));
+        dispatch(addCalories(calories ?? 0));
       }}
     >
       Zakończ
