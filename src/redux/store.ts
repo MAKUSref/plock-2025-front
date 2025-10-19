@@ -6,6 +6,7 @@ import { preloadSession, sessionListenerMiddleware } from "./middleware";
 import { baseApi } from "../api/baseApi/baseApi";
 import { navigationApi } from "../api/navigationApi/navigationApi";
 import tripReducer from "./slices/tripSlice";
+import { searchApi } from "../api/searchApi/searchApi";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     map: mapReducer,
     [baseApi.reducerPath]: baseApi.reducer,
     [navigationApi.reducerPath]: navigationApi.reducer,
+    [searchApi.reducerPath]: searchApi.reducer,
   },
   preloadedState: {
     session: preloadSession(),
@@ -23,7 +25,8 @@ export const store = configureStore({
     getDefaultMiddleware().concat(
       sessionListenerMiddleware.middleware,
       baseApi.middleware,
-      navigationApi.middleware
+      navigationApi.middleware,
+      searchApi.middleware
     ),
 });
 

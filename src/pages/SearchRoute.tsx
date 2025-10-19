@@ -1,50 +1,117 @@
-import { useState } from "react";
+import { useState, type MouseEventHandler } from "react";
 import PRIVATE_BIKE_IMAGE from "@/assets/illustrations/private-bike.png";
 import CITY_BIKE_IMAGE from "@/assets/illustrations/um-bike.png";
 import ARROW_LEFT from "@/assets/icons/arrow-left.svg";
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import { Btn } from "../components/atoms/Button";
+import { useLocation } from "../hooks/useLocation";
+import { AimOutlined, EnvironmentOutlined } from "@ant-design/icons";
+import { AddressAutofill, useConfirmAddress } from "@mapbox/search-js-react";
+import clsx from "clsx";
+import { config } from "../config/config";
+import { useLazySearchLocationQuery } from "../api/searchApi/searchApi";
+import { useAppDispatch } from "../redux/hooks";
+import { setCurrentBikeType, setSearchResult } from "../redux/map/mapSlice";
+import { setCurrentLocation } from "../redux/location/locationSlice";
 import { useNavigate } from "react-router";
 import { PATHS } from "../router/paths";
 
 export const SearchRoutePage = () => {
+  const [destination, setDestination] = useState("");
+  const { location, refresh } = useLocation();
   const [bikeType, setBikeType] = useState<"city" | "private">("private");
+  const { formRef } = useConfirmAddress();
+  const [triggerSearchLocation] = useLazySearchLocationQuery();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    triggerSearchLocation({ query: destination }).then((result: any) => {
+      console.log(result.data.features);
+      if (!result?.data?.features) return;
+      if (!location.lon || !location.lat) return;
+
+      dispatch(
+        setSearchResult({
+          location: result.data.features[0].properties.coordinates,
+          name:
+            result.data?.features[0].properties.context.place.name +
+            " " +
+            result.data?.features[0].properties.context.street.name,
+        })
+      );
+
+      dispatch(setCurrentLocation([location.lon, location.lat]));
+
+      dispatch(setCurrentBikeType(bikeType));
+      navigate(PATHS.MAP);
+    });
+  };
+
   return (
-    <div className=" box h-dvh flex flex-col justify-between">
-      <div className="flex flex-col gap-4">
-        <div className="">
-          <Button
-            type="text"
-            size="small"
-            icon={<img src={ARROW_LEFT} alt="Back" />}
-          />
-        </div>
-        <p>OD: </p>
-        <p>DO: </p>
-        <div>
-          <p className="font-medium mt-8">
-            Z jakiego roweru będziesz korzystać?
-          </p>
-          <div className="flex gap-2 mt-2">
-            <BikeButton
-              imageSrc={PRIVATE_BIKE_IMAGE}
-              label="Rower prywatny"
-              selected={bikeType === "private"}
-              onClick={() => setBikeType("private")}
-            />
-            <BikeButton
-              imageSrc={CITY_BIKE_IMAGE}
-              label="Rower miejski"
-              selected={bikeType === "city"}
-              onClick={() => setBikeType("city")}
+    <form ref={formRef} onSubmit={handleSubmit}>
+      <div className="box h-dvh flex flex-col justify-between">
+        <div className="flex flex-col gap-4">
+          <div className="">
+            <Button
+              type="text"
+              size="small"
+              icon={<img src={ARROW_LEFT} alt="Back" />}
             />
           </div>
+          <Input
+            value="Twoja lokalizacja"
+            size="large"
+            readOnly
+            prefix={
+              <AimOutlined
+                className={clsx("text-xl mr-2", location && "!text-purple-600")}
+                onClick={refresh}
+                style={{ cursor: "pointer" }}
+              />
+            }
+          />
+          <AddressAutofill accessToken={config.MAPBOX_ACCESS_TOKEN}>
+            <Input
+              placeholder="Wyszukaj dokąd chcesz jechać"
+              size="large"
+              autoComplete="address"
+              onChange={(e) => setDestination(e.target.value)}
+              prefix={<EnvironmentOutlined className="text-xl mr-2" />}
+            />
+          </AddressAutofill>
+          <div>
+            <p className="font-medium mt-8">
+              Z jakiego roweru będziesz korzystać?
+            </p>
+            <div className="flex gap-2 mt-2">
+              <BikeButton
+                imageSrc={PRIVATE_BIKE_IMAGE}
+                label="Rower prywatny"
+                selected={bikeType === "private"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setBikeType("private");
+                }}
+              />
+              <BikeButton
+                imageSrc={CITY_BIKE_IMAGE}
+                label="Rower miejski"
+                selected={bikeType === "city"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setBikeType("city");
+                }}
+              />
+            </div>
+          </div>
         </div>
+        <Btn>Rozpocznij trasę</Btn>
       </div>
-      <Btn onClick={() => navigate(PATHS.MAP)}>Rozpocznij trasę</Btn>
-    </div>
+    </form>
   );
 };
 
@@ -57,7 +124,7 @@ const BikeButton = ({
   imageSrc: string;
   label: string;
   selected: boolean;
-  onClick: () => void;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     <button
