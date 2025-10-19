@@ -25,9 +25,9 @@ export const navigationApi = createApi({
   baseQuery,
   tagTypes: ["path"],
   endpoints: (builder) => ({
-    getRoute: builder.query<GetRouteResponse, GetMultiPartRoute>({
-      query: (multipartRoute) => ({
-        url: `cycling/${multipartRoute
+    getMultiPartRoute: builder.query<GetRouteResponse, GetMultiPartRoute>({
+      query: ({ coords }) => ({
+        url: `cycling/${coords
           .map((coord) => coord.join(","))
           .join(";")}?steps=true&geometries=geojson&access_token=${
           config.MAPBOX_ACCESS_TOKEN
@@ -35,7 +35,7 @@ export const navigationApi = createApi({
       }),
     }),
 
-    getMultiPartRoute: builder.query<
+    getRoute: builder.query<
       GetRouteResponse,
       GetRouteRequest & { type?: "cycling" | "walking" }
     >({
