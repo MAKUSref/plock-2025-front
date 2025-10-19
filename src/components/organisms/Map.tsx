@@ -1,22 +1,24 @@
 import { useEffect } from "react";
 import { useMap } from "../../hooks/useMap";
 import { useRouteLayer } from "../../hooks/useRouteLayer";
-import { useLazyGetRouteQuery } from "../../api/navigationApi/navigationApi";
-import { useLocation } from "../../hooks/useLocation";
 import type { Coordinate } from "../../api/navigationApi/types";
 import GLOBAL_ROUTES_JSON from "../../assets/bike_paths_global.json";
 import BIKE_STATIONS_JSON from "../../assets/bike_stations.json";
 import { useObjectLayer } from "../../hooks/useObjectLayer";
-
-const END: Coordinate = [19.601562, 52.4823373];
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setActiveRouteIds } from "../../redux/map/mapSlice";
 
 export function Map() {
-  const { location } = useLocation();
-  const [triggerRouteQuery] = useLazyGetRouteQuery();
-
+  const { searchResult, activeRouteIds } = useAppSelector((state) => state.map);
   const { mapContainerRef, mapRef } = useMap();
-  const { addRouteLayer } = useRouteLayer(mapRef);
+  const {
+    addRouteLayer,
+    generateBasicBikeRoute,
+    removeRouteLayer,
+    generateWalkAndBikeRoute,
+  } = useRouteLayer(mapRef);
   const { addBikeStation: addStation } = useObjectLayer(mapRef);
+  const dispatch = useAppDispatch();
 
   // Load global plock routes
   useEffect(() => {
@@ -24,27 +26,25 @@ export function Map() {
       "line-color": "#1c36c9",
       "line-opacity": 0.5,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Create route at your location
-  useEffect(() => {
-    if (!location.lat || !location.lon) return;
-    const start: Coordinate = [location.lon, location.lat];
-    triggerRouteQuery({ start, end: END }).then(({ data }) => {
-      addRouteLayer({
-        type: "Feature",
-        properties: {},
-        geometry: data?.routes[0].geometry,
-      });
-    });
-  }, [location]);
-
-  // Add station at your location
+  // Add bike stations
   useEffect(() => {
     BIKE_STATIONS_JSON.features.forEach(({ geometry }) => {
       addStation(geometry.coordinates as Coordinate);
     });
   }, []);
+
+  useEffect(() => {
+    activeRouteIds?.forEach((id) => {
+      removeRouteLayer(id);
+    });
+    if (!searchResult) return;
+    generateWalkAndBikeRoute(searchResult.location).then((ids) => {
+      dispatch(setActiveRouteIds(ids));
+    });
+  }, [searchResult]);
 
   return <div className="absolute h-dvh w-full" ref={mapContainerRef}></div>;
 }

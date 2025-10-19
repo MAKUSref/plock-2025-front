@@ -3,8 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { GetRouteRequest, GetRouteResponse } from "./types";
 import { config } from "../../config/config";
 
-const NAVIGATION_API_URL =
-  "https://api.mapbox.com/directions/v5/mapbox/cycling/";
+const NAVIGATION_API_URL = "https://api.mapbox.com/directions/v5/mapbox/";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: NAVIGATION_API_URL,
@@ -22,15 +21,18 @@ export const navigationApi = createApi({
   baseQuery,
   tagTypes: ["path"],
   endpoints: (builder) => ({
-    getRoute: builder.query<GetRouteResponse, GetRouteRequest>({
-      query: ({ start, end }) => ({
-        url: `${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${config.MAPBOX_ACCESS_TOKEN}`,
+    getRoute: builder.query<
+      GetRouteResponse,
+      GetRouteRequest & { type?: "cycling" | "walking" }
+    >({
+      query: ({ start, end, type = "cycling" }) => ({
+        url: `${type}/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${config.MAPBOX_ACCESS_TOKEN}`,
       }),
     }),
 
     getGeocoding: builder.query<void, string>({
       query: (query) => ({
-        url: `${encodeURIComponent(query)}.json?access_token=${
+        url: `cycling/${encodeURIComponent(query)}.json?access_token=${
           config.MAPBOX_ACCESS_TOKEN
         }&autocomplete=true&limit=5`,
       }),

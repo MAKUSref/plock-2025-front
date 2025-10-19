@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import sessionReducer from "./session/sessionSlice";
+import locationReducer from "./location/locationSlice";
+import mapReducer from "./map/mapSlice";
 import { preloadSession, sessionListenerMiddleware } from "./middleware";
 import { baseApi } from "../api/baseApi/baseApi";
 import { navigationApi } from "../api/navigationApi/navigationApi";
@@ -9,6 +11,8 @@ export const store = configureStore({
   reducer: {
     session: sessionReducer,
     trip: tripReducer,
+    location: locationReducer,
+    map: mapReducer,
     [baseApi.reducerPath]: baseApi.reducer,
     [navigationApi.reducerPath]: navigationApi.reducer,
   },
