@@ -39,6 +39,7 @@ export const TripQuestionPage = () => {
       setTimeout(() => {
         dispatch(clearSteps());
         navigate(`/map?tripId=68f4a86cb31be798eecd4b28`);
+        window.location.reload();
       }, 4000);
       // generate(formData as GenerateTripData).then((response) => {
       //   if (response.data) {
