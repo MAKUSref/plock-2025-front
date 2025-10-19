@@ -30,6 +30,9 @@ export function Map() {
     addPlaceToRest,
     addPlaceToVisit,
     addPark,
+    addMuseum,
+    addRepairStation,
+    addAlert,
   } = useObjectLayer(mapRef);
   const { data: restingPlaces } = useGetPlacesByTagQuery({
     tag: "resting_place",
@@ -46,6 +49,13 @@ export function Map() {
   const { data: museumPlaces } = useGetPlacesByTagQuery({
     tag: "museum",
   });
+  const { data: alertPlaces } = useGetPlacesByTagQuery({
+    tag: "alert",
+  });
+  const { data: repairPlaces } = useGetPlacesByTagQuery({
+    tag: "repair_station",
+  });
+  
   const { data: tripData } = useGetTripByIdQuery({
     tripId: searchParams.get("tripId") || "",
   });
@@ -98,9 +108,24 @@ export function Map() {
   useEffect(() => {
     museumPlaces?.forEach((place) => {
       const coord = [place.coordinates[1], place.coordinates[0]] as Coordinate;
-      addPlaceToVisit(coord);
+      addMuseum(coord);
     });
   }, [museumPlaces]);
+
+    useEffect(() => {
+      alertPlaces?.forEach((place) => {
+      console.log('tu');
+        
+      const coord = [place.coordinates[1], place.coordinates[0]] as Coordinate;
+      addAlert(coord);
+    });
+  }, [alertPlaces, addAlert]);
+  useEffect(() => {
+    repairPlaces?.forEach((place) => {
+      const coord = [place.coordinates[1], place.coordinates[0]] as Coordinate;
+      addRepairStation(coord);
+    });
+  }, [repairPlaces]);
 
   useEffect(() => {
     activeRoutes?.forEach((route) => {
