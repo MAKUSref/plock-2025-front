@@ -3,8 +3,12 @@ import DarkBlob from "@/assets/icons/blob.svg";
 import Bike from "@/assets/icons/bike.png";
 import ArrowUp from "@/assets/icons/arrow-up.svg";
 import TreeImage from "@/assets/illustrations/tree.png";
+import { useNavigate } from "react-router";
+import { PATHS } from "../router/paths";
 
 export function HomePage() {
+  const navigate = useNavigate();
+
   return (
     <div className="relative h-dvh">
       <div>
@@ -48,7 +52,10 @@ export function HomePage() {
           </div>
         </div>
       </div>
-      <button className="absolute flex bottom-5 rounded-3xl mx-4  text-start bg-purple-dark text-white text-lg font-medium">
+      <button
+        onClick={() => navigate(PATHS.SEARCH_ROUTE)}
+        className="absolute flex bottom-5 rounded-3xl mx-4  text-start bg-purple-dark text-white text-lg font-medium"
+      >
         <span className="p-4 pl-5 text-base">
           Rozpocznij nową trasę rowerową
         </span>

@@ -5,4 +5,5 @@ export const PATHS = {
   TRIP_QUESTION: "/trip-question",
   TRIP_LIST: "/trip-list",
   TRIP_PAGE: "/trip/:tripId",
+  SEARCH_ROUTE: "/search-route",
 };

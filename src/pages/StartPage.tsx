@@ -1,4 +1,4 @@
-import { Button } from "../components/atoms/Button";
+import { Btn } from "../components/atoms/Button";
 import IslandImage from "@/assets/icons/island.svg";
 import TripIcon from "@/assets/icons/trip.png";
 import DarkBlob from "@/assets/icons/blob-dark.svg";
@@ -34,13 +34,13 @@ export const StartPage = () => {
           Chcesz pojeździć dla relaksu, czy wolisz poczuć sportową adrenalinę na
           trasie?
         </p>
-        <Button
+        <Btn
           onClick={() => {
             navigate(PATHS.TRIP_LIST);
           }}
         >
           Znajdź idealną trasę dla mnie!
-        </Button>
+        </Btn>
         <button className="mt-2 text-sm text-gray-400 underline rounded-full py-3 px-7 w-full">
           Chcę tylko przejechać do punktu
         </button>
