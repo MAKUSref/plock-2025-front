@@ -4,9 +4,12 @@ import CITY_BIKE_IMAGE from "@/assets/illustrations/um-bike.png";
 import ARROW_LEFT from "@/assets/icons/arrow-left.svg";
 import { Button } from "antd";
 import { Btn } from "../components/atoms/Button";
+import { useNavigate } from "react-router";
+import { PATHS } from "../router/paths";
 
 export const SearchRoutePage = () => {
   const [bikeType, setBikeType] = useState<"city" | "private">("private");
+  const navigate = useNavigate();
 
   return (
     <div className=" box h-dvh flex flex-col justify-between">
@@ -40,7 +43,7 @@ export const SearchRoutePage = () => {
           </div>
         </div>
       </div>
-      <Btn>Rozpocznij trasę</Btn>
+      <Btn onClick={() => navigate(PATHS.MAP)}>Rozpocznij trasę</Btn>
     </div>
   );
 };
