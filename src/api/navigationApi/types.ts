@@ -1,5 +1,7 @@
 export type Coordinate = [number | string, number | string];
 
+export type GetMultiPartRoute = Coordinate[];
+
 export type GetRouteRequest = {
   start: Coordinate;
   end: Coordinate;

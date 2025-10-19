@@ -1,6 +1,5 @@
 import type { Place, PlaceTag } from "../place/types";
 
-
 export type TripType = "sport" | "cultural" | "nature";
 
 export type Trip = {
@@ -15,9 +14,8 @@ export type Trip = {
   path?: GeoJSON.Geometry;
 };
 
-
 export type GenerateTripData = {
-    "time": number; // in hours
-    "type": TripType;
-    "tags": PlaceTag[]; // [lat, lng]
+  time: number; // in hours
+  type: TripType;
+  tags: PlaceTag[]; // [lat, lng]
 };

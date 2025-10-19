@@ -1,6 +1,10 @@
 import type { RootState } from "../../redux/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { GetRouteRequest, GetRouteResponse } from "./types";
+import type {
+  GetMultiPartRoute,
+  GetRouteRequest,
+  GetRouteResponse,
+} from "./types";
 import { config } from "../../config/config";
 
 const NAVIGATION_API_URL = "https://api.mapbox.com/directions/v5/mapbox/";
@@ -21,7 +25,17 @@ export const navigationApi = createApi({
   baseQuery,
   tagTypes: ["path"],
   endpoints: (builder) => ({
-    getRoute: builder.query<
+    getRoute: builder.query<GetRouteResponse, GetMultiPartRoute>({
+      query: (multipartRoute) => ({
+        url: `cycling/${multipartRoute
+          .map((coord) => coord.join(","))
+          .join(";")}?steps=true&geometries=geojson&access_token=${
+          config.MAPBOX_ACCESS_TOKEN
+        }`,
+      }),
+    }),
+
+    getMultiPartRoute: builder.query<
       GetRouteResponse,
       GetRouteRequest & { type?: "cycling" | "walking" }
     >({
