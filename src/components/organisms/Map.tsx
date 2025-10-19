@@ -9,11 +9,11 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setActiveRoutes } from "../../redux/map/mapSlice";
 
 export function Map() {
-  const { searchResult, activeRoutes } = useAppSelector((state) => state.map);
+  const { searchResult, activeRoutes, bikeType } = useAppSelector((state) => state.map);
   const { mapContainerRef, mapRef } = useMap();
   const {
     addRouteLayer,
-    // generateBasicBikeRoute,
+    generateBasicBikeRoute,
     removeRouteLayer,
     generateWalkAndBikeRoute,
   } = useRouteLayer(mapRef);
@@ -41,9 +41,14 @@ export function Map() {
       removeRouteLayer(route.id);
     });
     if (!searchResult) return;
-    generateWalkAndBikeRoute(searchResult.location).then((ids) => {
+    if (bikeType === "city") {
+      generateWalkAndBikeRoute(searchResult.location).then((ids) => {
+        dispatch(setActiveRoutes(ids));
+      });
+    } else {
+      const ids = generateBasicBikeRoute(searchResult.location);
       dispatch(setActiveRoutes(ids));
-    });
+    }
   }, [searchResult]);
 
   return <div className="absolute h-dvh w-full" ref={mapContainerRef}></div>;

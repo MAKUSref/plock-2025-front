@@ -36,7 +36,10 @@ export const SearchRoutePage = () => {
 
       dispatch(
         setSearchResult({
-          location: result.data.features[0].properties.coordinates,
+          location: [
+            result.data.features[0].properties.coordinates.longitude,
+            result.data.features[0].properties.coordinates.latitude,
+          ],
           name:
             result.data?.features[0].properties.context.place.name +
             " " +
