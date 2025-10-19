@@ -69,6 +69,7 @@ export const RideProgress = ({ distance, calories }: RideProgressProps) => {
         navigate(PATHS.START);
         dispatch(addDistance(distance ?? 0));
         dispatch(addCalories(calories ?? 0));
+        window.location.reload();
       }}
     >
       Zakończ

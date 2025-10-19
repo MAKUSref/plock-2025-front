@@ -147,6 +147,7 @@ export function Map() {
     activeRoutes?.forEach((route) => {
       removeRouteLayer(route.id);
     });
+    dispatch(setActiveRoutes([]));
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const coords = (tripData as any)?.trip.waypoints.map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

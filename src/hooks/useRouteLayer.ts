@@ -274,18 +274,16 @@ export function useRouteLayer(mapRef: React.RefObject<mapboxgl.Map | null>) {
         [coords[i][1], coords[i][0]],
         [coords[i + 1][1], coords[i + 1][0]]
       );
-      console.log(id);
-      
       ids.push(id);
-      console.log({ids});
-      
       dispatch(setActiveRoutes(ids));
     }
     return ids;
   };
 
   const generateBasicMultipartBikeRoute = (coords: Coordinate[]) => {
-    const currentLocation = [52.550592689974025, 19.68084852280856] as Coordinate;
+    const currentLocation = [
+      52.550592689974025, 19.68084852280856,
+    ] as Coordinate;
     generateMultipartBikeRoute([currentLocation, ...coords]);
     flyToBound(
       currentLocation as [number, number],
