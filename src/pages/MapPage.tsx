@@ -40,7 +40,6 @@ export function MapPage() {
   }, [activeRoutes]);
 
   console.log(distance);
-  
 
   const directions = useMemo(() => {
     return activeRoutes
@@ -56,7 +55,11 @@ export function MapPage() {
       </div>
       <div className="absolute z-20 bottom-0 w-full">
         <div className=" flex justify-end px-4 pb-2 pt-2">
-          <Button shape="circle" size="large" icon={<WarningOutlined />} />
+          <Button
+            shape="circle"
+            size="large"
+            icon={<WarningOutlined className="!text-2xl !text-orange-400" />}
+          />
         </div>
         <div className="px-2 pb-2">
           <RideProgress

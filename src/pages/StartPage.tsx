@@ -36,7 +36,7 @@ export const StartPage = () => {
         </p>
         <Btn
           onClick={() => {
-            navigate(PATHS.TRIP_LIST);
+            navigate(PATHS.START);
           }}
         >
           Znajdź idealną trasę dla mnie!
