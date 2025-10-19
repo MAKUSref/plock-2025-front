@@ -59,4 +59,5 @@ export const {
   useLazyGetRouteQuery,
   useGetGeocodingQuery,
   useLazyGetGeocodingQuery,
+  useLazyGetMultiPartRouteQuery,
 } = navigationApi;
