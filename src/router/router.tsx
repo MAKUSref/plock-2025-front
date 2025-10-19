@@ -16,8 +16,8 @@ export function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path={PATHS.HOME} element={<MainLayout />}>
-          <Route index path={PATHS.HOME} element={<HomePage />} />
-          <Route path={PATHS.START} element={<StartPage />} />
+          <Route index path={PATHS.HOME} element={<StartPage />} />
+          <Route path={PATHS.START} element={<HomePage />} />
           <Route path={PATHS.MAP} element={<MapLayout />}>
             <Route index element={<MapPage />} />
           </Route>

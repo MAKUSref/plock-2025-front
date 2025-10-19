@@ -11,11 +11,22 @@ export const searchApi = createApi({
   reducerPath: "searchApi",
   baseQuery,
   endpoints: (builder) => ({
-    searchLocation: builder.query<void, { query: string }>({
-      query: ({ query }) => ({
-        url: `?language=pl&q=${encodeURIComponent(query)}&access_token=${
-          config.MAPBOX_ACCESS_TOKEN
-        }`,
+    searchLocation: builder.query<
+      void,
+      {
+        query: string;
+        proximity: {
+          latitude: number;
+          longitude: number;
+        };
+      }
+    >({
+      query: ({ query, proximity }) => ({
+        url: `?language=pl&q=${encodeURIComponent(
+          query
+        )}&country=PL&proximity=${proximity.latitude},${
+          proximity.longitude
+        }&access_token=${config.MAPBOX_ACCESS_TOKEN}`,
       }),
     }),
   }),
