@@ -5,7 +5,13 @@ export type Location = {
   name: string;
 }
 
+export type Route = {
+  id: string;
+  isActive: boolean;
+  data?: GeoJSON.FeatureCollection;
+}
+
 export type MapState = {
   searchResult?: Location;
-  activeRouteIds?: string[];
+  activeRoutes?: Route[];
 };
